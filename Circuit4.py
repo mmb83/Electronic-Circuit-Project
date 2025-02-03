@@ -190,12 +190,12 @@ def Analysis_for_circuit4_PNP(RB,Beta,VCC,RC):
     Ibase = (VCC-0.7)/ RB
     if Ibase <= 0 :
         TEMP = "KVL 1: VCC -  (IB) * RB - VEB(ACTIVE) = 0"
-        return(("off",0,0,VCC),draw_circuit4_NPN_off,TEMP)
+        return(("off",0,0,VCC),draw_circuit4_PNP_off,TEMP)
     Icollector = Beta * Ibase
     VEC = VCC - Icollector* RC
     if VEC > 0.2 :
         TEMP = "KVL 1: VCC  - (IB) * RB - VEB(ACTIVE) = 0 \n KVL 2: VCC - (IC) * RC  - VEC = 0 \n IE = IB + IC"
-        return(("Active",Ibase,Icollector,VEC),draw_circuit4_NPN_Active,TEMP)
+        return(("Active",Ibase,Icollector,VEC),draw_circuit4_PNP_Active,TEMP)
     else:
         Ibase = (VCC-0.8)/ RB
         Icollector = (VCC - 0.2) / RC
