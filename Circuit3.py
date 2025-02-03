@@ -4,7 +4,7 @@ import schemdraw.elements as elm
 
 
 
-def draw_circuit1_PNP_off(d,RB="RB",RC="RC",VCC="VCC"):
+def draw_circuit3_PNP_off(d,RB="RB",RC="RC",VCC="VCC"):
 
     d+= elm.Dot().at((-1.5033333333333332,1.8410523547181874e-16))
     d += elm.Line().length(2.25).left()
@@ -22,7 +22,7 @@ def draw_circuit1_PNP_off(d,RB="RB",RC="RC",VCC="VCC"):
     d += elm.Ground()
     return d
     
-def draw_circuit1_PNP_Active(d,RB="RB",RC="RC",VCC="VCC"):
+def draw_circuit3_PNP_Active(d,RB="RB",RC="RC",VCC="VCC"):
     
     d+= elm.Dot().at((-1.5033333333333332,1.8410523547181874e-16))
     d += elm.BatteryCell().left().reverse().label('Vbe')
@@ -46,7 +46,7 @@ def draw_circuit1_PNP_Active(d,RB="RB",RC="RC",VCC="VCC"):
     
 
 
-def draw_circuit1_PNP_Sat(d,RB="RB",RC="RC",VCC="VCC"):
+def draw_circuit3_PNP_Sat(d,RB="RB",RC="RC",VCC="VCC"):
     
     d+= elm.Dot().at((-1.5033333333333332,1.8410523547181874e-16))
     d += elm.BatteryCell().left().reverse().label('Vbe')
@@ -69,7 +69,7 @@ def draw_circuit1_PNP_Sat(d,RB="RB",RC="RC",VCC="VCC"):
     return d
     
 
-def draw_circuit1_NPN(d,RB="RB",RC="RC",VCC="VCC"):
+def draw_circuit3_NPN(d,RB="RB",RC="RC",VCC="VCC"):
 
     transistor = d.add( elm.BjtNpn(circle=True).label('Q1').right() )
     d += elm.Line().length(2.25).left().at(transistor.base)
@@ -86,7 +86,7 @@ def draw_circuit1_NPN(d,RB="RB",RC="RC",VCC="VCC"):
     d += elm.Ground()
     return d
 
-def draw_circuit1_PNP(d,RB="RB",RC="RC",VCC="VCC"):
+def draw_circuit3_PNP(d,RB="RB",RC="RC",VCC="VCC"):
     transistor = d.add( elm.BjtPnp2(circle=True).label('Q1').reverse() )
     d += elm.Line().length(2.25).left().at(transistor.base)
     d += elm.Line().length(1.5).up()
@@ -102,7 +102,7 @@ def draw_circuit1_PNP(d,RB="RB",RC="RC",VCC="VCC"):
     d += elm.Ground()
     return d
 
-def draw_circuit1_NPN_off(d,RB="RB",RC="RC",VCC="VCC"):
+def draw_circuit3_NPN_off(d,RB="RB",RC="RC",VCC="VCC"):
     
     d+= elm.Dot().at((-1.5033333333333332,1.8410523547181874e-16))
     d += elm.Line().length(2.25).left()
@@ -122,7 +122,7 @@ def draw_circuit1_NPN_off(d,RB="RB",RC="RC",VCC="VCC"):
 
 
     
-def draw_circuit1_NPN_Active(d,RB="RB",RC="RC",VCC="VCC"):
+def draw_circuit3_NPN_Active(d,RB="RB",RC="RC",VCC="VCC"):
 
     d+= elm.Dot().at((-1.5033333333333332,1.8410523547181874e-16))
     d += elm.BatteryCell().left().reverse().label('Vbe')
@@ -146,7 +146,7 @@ def draw_circuit1_NPN_Active(d,RB="RB",RC="RC",VCC="VCC"):
 
 
 
-def draw_circuit1_NPN_Sat(d,RB="RB",RC="RC",VCC="VCC"):
+def draw_circuit3_NPN_Sat(d,RB="RB",RC="RC",VCC="VCC"):
     
     d+= elm.Dot().at((-1.5033333333333332,1.8410523547181874e-16))
     d += elm.BatteryCell().left().reverse().label('Vbe')
@@ -168,38 +168,38 @@ def draw_circuit1_NPN_Sat(d,RB="RB",RC="RC",VCC="VCC"):
     d += elm.Ground()
     return d
 
-def Analysis_for_circuit1_NPN(RB,Beta,VCC,RC):
+def Analysis_for_circuit3_NPN(RB,Beta,VCC,RC):
     Ibase = (VCC-0.7)/(RB + ((Beta+1) * RC ) )
     if Ibase <= 0 :
         TEMP = "KVL 1: -VCC + (IB + IC) * RC + (IB) * RB + VBE(ACTIVE) = 0"
-        return(("off",0,0,VCC),draw_circuit1_NPN_off,TEMP)
+        return(("off",0,0,VCC),draw_circuit3_NPN_off,TEMP)
     Icollector = Beta * Ibase
     VCE = VCC - ((Beta+1)/Beta) * RC * Icollector 
     if VCE > 0.2 :
         TEMP = "KVL 1: -VCC + (IB + IC) * RC + (IB) * RB + VBE(ACTIVE) = 0 \n KVL 2: -VCC + (BETA+1)/BETA) *RC*IC  + VCE = 0 \n IE = IB + IC"
-        return(("Active",Ibase,Icollector,VCE),draw_circuit1_NPN_Active,TEMP)
+        return(("Active",Ibase,Icollector,VCE),draw_circuit3_NPN_Active,TEMP)
     else:
         Ibase = (VCC-0.8)/(RB + ((Beta+1) * RC ) )
         Icollector = (VCC - 0.2) / ((Beta+1)/Beta) * RC
         VCE = 0.2
         TEMP = "KVL 1: -VCC + (IB + IC) * RC + (IB) * RB + VBE(SAT) = 0 \n KVL 2: -VCC + (BETA+1)/BETA) *RC*IC  + VCE(SAT) = 0 \n IE = IB + IC"
-        return(("Sat",Ibase,Icollector,VCE),TEMP)
+        return(("Sat",Ibase,Icollector,VCE),draw_circuit3_NPN_Sat,TEMP)
 
-def Analysis_for_circuit1_PNP(RB,Beta,VCC,RC):
+def Analysis_for_circuit3_PNP(RB,Beta,VCC,RC):
     Ibase = (VCC-0.7)/(RB + ((Beta+1) * RC ) )
     if Ibase <= 0 :
         TEMP = "KVL 1: VCC - (IB + IC) * RC - (IB) * RB - VEB(ACTIVE) = 0"
-        return(("off",0,0,VCC),draw_circuit1_NPN_off,TEMP)
+        return(("off",0,0,VCC),draw_circuit3_NPN_off,TEMP)
     Icollector = Beta * Ibase
     VEC = VCC - ((Beta+1)/Beta) * RC * Icollector 
     if VCE > 0.2 :
         TEMP = "KVL 1: VCC - (IB + IC) * RC - (IB) * RB - VEB(ACTIVE) = 0 \n KVL 2: VCC - (IB + IC) * RC  - VEC = 0 \n IE = IB + IC"
-        return(("Active",Ibase,Icollector,VEC),draw_circuit1_NPN_Active,TEMP)
+        return(("Active",Ibase,Icollector,VEC),draw_circuit3_NPN_Active,TEMP)
     else:
         Ibase = (VCC-0.8)/(RB + ((Beta+1) * RC ) )
         Icollector = (VCC - 0.2) / ((Beta+1)/Beta) * RC
         VCE = 0.2
         TEMP = "KVL 1: VCC - (IB + IC) * RC - (IB) * RB - VEB(SAT) = 0 \n KVL 2: VCC - (BETA+1)/BETA) *RC*IC  - VEC(SAT) = 0 \n IE = IB + IC"
-        return(("Sat",Ibase,Icollector,VCE),TEMP)
+        return(("Sat",Ibase,Icollector,VCE),draw_circuit3_PNP_Sat,TEMP)
 
 
