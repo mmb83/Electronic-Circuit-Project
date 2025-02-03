@@ -201,6 +201,6 @@ def Analysis_for_circuit1_PNP(RB,Beta,VCC,RC):
         Icollector = (VCC - 0.2) / RC
         VEC = 0.2
         TEMP = "KVL 1: VCC - (IB) * RB - VEB(SAT) = 0 \n KVL 2: VCC - (IC) * RC  - VEC(SAT) = 0 \n IE = IB + IC"
-        return(("Sat",Ibase,Icollector,VEC),TEMP)
+        return(("Sat",Ibase,Icollector,VEC),draw_circuit1_PNP_Sat,TEMP)
 
 
