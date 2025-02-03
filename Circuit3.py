@@ -168,7 +168,7 @@ def draw_circuit1_NPN_Sat(d):
     d += elm.Ground()
     return d
 
-def Analysis_for_circuit1_NPN(VBB,RB,Beta,VCC,RC):
+def Analysis_for_circuit1_NPN(RB,Beta,VCC,RC):
     Ibase = (VCC-0.7)/(RB + ((Beta+1) * RC ) )
     if Ibase <= 0 :
         TEMP = "KVL 1: -VCC + (IB + IC) * RC + (IB) * RB + VBE(ACTIVE) = 0"
@@ -185,7 +185,7 @@ def Analysis_for_circuit1_NPN(VBB,RB,Beta,VCC,RC):
         TEMP = "KVL 1: -VCC + (IB + IC) * RC + (IB) * RB + VBE(SAT) = 0 \n KVL 2: -VCC + (BETA+1)/BETA) *RC*IC  + VCE(SAT) = 0 \n IE = IB + IC"
         return(("Sat",Ibase,Icollector,VCE),TEMP)
 
-def Analysis_for_circuit1_PNP(VBB,RB,Beta,VCC,RC):
+def Analysis_for_circuit1_PNP(RB,Beta,VCC,RC):
     Ibase = (VCC-0.7)/(RB + ((Beta+1) * RC ) )
     if Ibase <= 0 :
         TEMP = "KVL 1: VCC - (IB + IC) * RC - (IB) * RB - VEB(ACTIVE) = 0"
